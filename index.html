@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b72">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>MY CAR MANAGER</title>
+<meta name="apple-mobile-web-app-title" content="MY CAR MANAGER">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+:root{--navy:#123b72;--blue:#1763c6;--sky:#eaf3ff;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--bg:#f3f6fb;--green:#087e55;--red:#c43d4b;--amber:#a76508}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Kanit,system-ui,sans-serif;padding-bottom:calc(82px + env(safe-area-inset-bottom));-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+header{background:linear-gradient(120deg,#102f5e,#1763c6);color:#fff;padding:18px 16px 20px;box-shadow:0 4px 16px #0f2d5030}
+.wrap{max-width:1050px;margin:auto;padding:0 14px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:21px;font-weight:700}.sub{font-size:12px;color:#c9ddff}.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+button,.btn{border:0;border-radius:10px;padding:10px 13px;font:500 13px Kanit;cursor:pointer;transition:.15s}button:disabled{opacity:.5;cursor:not-allowed}.btn-light{background:#fff;color:var(--navy)}.btn-yellow{background:#ffd45a;color:#27344b}.btn-blue{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-red{background:#fff0f1;color:var(--red)}.btn-gray{background:#edf1f6;color:#334155}.btn-small{padding:6px 9px;font-size:12px}
+main{max-width:1050px;margin:16px auto;padding:0 14px}.panel{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px;box-shadow:0 2px 8px #20344d08;margin-bottom:14px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.section-head h2{font-size:17px;margin:0}.muted{color:var(--muted);font-size:12px}.tabs{display:flex;gap:6px;overflow:auto;padding:5px;background:#e8eef7;border-radius:12px;margin:14px 0}.tab{white-space:nowrap;background:transparent;color:#42536c;padding:9px 13px}.tab.active{background:#fff;color:var(--blue);box-shadow:0 2px 6px #1c35551a;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{padding:14px;border-radius:13px;background:#f7faff;border:1px solid #e5edf8}.stat .label{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:22px;margin-top:4px}.stat small{color:var(--muted)}
+label{display:block;font-size:12px;font-weight:500;color:#536176;margin:0 0 5px}input,select,textarea{width:100%;border:1px solid #d8e0eb;border-radius:9px;padding:10px;font:13px Kanit;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:#4c91e8;box-shadow:0 0 0 3px #dbeafe}textarea{resize:vertical;min-height:70px}.field{min-width:0}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.full{grid-column:1/-1}.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.vehicle-strip{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.vehicle-strip select{max-width:340px}.car-chip{background:var(--sky);color:var(--navy);border-radius:999px;padding:6px 11px;font-size:12px;font-weight:600}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12px;min-width:640px}th,td{padding:10px 9px;border-bottom:1px solid #edf1f5;text-align:left;vertical-align:middle}th{background:#f7f9fc;color:#64748b;font-weight:600;white-space:nowrap}td.num,th.num{text-align:right}.empty{text-align:center;color:#94a3b8;padding:26px!important}.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#edf5ff;color:#245c9f;font-size:11px}
+.hidden{display:none!important}.notice{padding:10px 12px;background:#fff8e8;border:1px solid #f6dfaa;color:#87520c;border-radius:10px;font-size:12px;margin-bottom:12px}.danger{color:var(--red)}.barline{height:10px;background:#eaf0f6;border-radius:99px;overflow:hidden}.barline span{display:block;height:100%;background:#3c83d8;border-radius:99px}.vehicle-card{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}.vehicle-card h3{margin:0 0 3px;font-size:15px}.vehicle-meta{font-size:12px;color:var(--muted)}.chart{width:100%;height:220px;display:block}.donut-box{display:flex;align-items:center;gap:22px;flex-wrap:wrap}.donut-visual{width:220px;height:220px;position:relative;flex:0 0 220px}.donut-visual canvas{width:100%;height:100%}.donut-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.donut-label small{color:var(--muted);font-size:11px}.donut-label b{font-size:19px}.donut-legend{flex:1;min-width:200px}.legend-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #edf1f5;font-size:12px}.legend-swatch{width:10px;height:10px;border-radius:50%;flex:none}.legend-name{flex:1}.legend-value{text-align:right;font-weight:600}.legend-value small{display:block;color:var(--muted);font-weight:400}.footer{text-align:center;color:#94a3b8;font-size:11px;padding:12px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top{align-items:flex-start;flex-direction:column}.header-actions{width:100%}.header-actions button{flex:1}.panel{padding:13px}.stat strong{font-size:19px}}
+@media(max-width:420px){.formgrid,.grid2{grid-template-columns:1fr}.full{grid-column:auto}.tabs .tab{padding:8px 10px;font-size:12px}}
+
+/* MY CAR MANAGER mobile-first dashboard refresh */
+body{background:#f3f5fa;padding-bottom:0}
+header{background:rgba(255,255,255,.96);color:#172033;box-shadow:0 2px 18px #1b2d4a0c;padding:18px 16px 14px}
+.brand{font-size:22px;color:#172033;letter-spacing:.1px}.sub{font-size:11px;letter-spacing:2.2px;color:#7b879b;font-weight:600}
+.btn-light{background:#fff;color:#172033;border:1px solid #e4e8ef;border-radius:18px;padding:11px 15px}
+main{max-width:900px;margin:22px auto;padding:0 16px}
+.panel{border:1px solid #e4e8f0;border-radius:23px;padding:20px;background:#fff;box-shadow:0 3px 12px #20344d06;margin-bottom:16px}
+.dash-intro{margin:25px 0 24px}.dash-intro h1{font-size:27px;line-height:1.25;margin:0 0 7px;font-weight:600}.dash-intro p{margin:0;color:#7b879b;font-size:14px}
+.hero-car{border-radius:30px;padding:24px;background:linear-gradient(125deg,#142b49,#24588b);color:#fff;margin-bottom:16px;box-shadow:0 10px 25px #17375c18}
+.hero-top{display:flex;justify-content:space-between;align-items:center;color:#dce8f8;font-size:14px}.car-count{background:#dcf8e9;color:#17734f;border-radius:999px;padding:7px 15px;font-weight:600}
+.hero-car h2{font-size:25px;margin:22px 0 2px}.hero-car p{margin:0 0 20px;color:#c8d8eb;font-size:14px}
+.hero-car select{background:#ffffff18;color:#fff;border:1px solid #ffffff40;border-radius:15px;padding:13px 15px;font-size:15px}.hero-car select option{color:#172033;background:#fff}
+.dash-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0 20px}
+.dash-stat{background:#fff;border:1px solid #e5e9f0;border-radius:22px;padding:17px 18px;min-width:0;box-shadow:0 2px 8px #20344d05}
+.dash-stat .label{font-size:13px;color:#8490a2}.dash-stat strong{display:block;font-size:25px;margin:5px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dash-stat small{font-size:12px;color:#8994a5}
+.quick-panel{padding:19px}.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.quick-action{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:92px;padding:10px 4px;border:0;border-radius:19px;background:#f0f4fc;color:#172033;font-family:inherit}
+.quick-action span{font-size:28px;line-height:1.2}.quick-action b{font-size:12px;font-weight:500}
+.section-head h2{font-size:19px}.year-select{width:112px;padding:9px 12px;font-size:15px;border-radius:13px}
+.monthly-chart{width:100%;height:235px;display:block}.chart-key{font-size:12px;color:#8792a3;margin-top:7px}.chart-key i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#2877df;margin-right:7px}
+.btn-outline{background:#fff;border:1px solid #e1e6ee;color:#172033;border-radius:14px;padding:9px 13px}
+.recent-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #edf0f5}.recent-item:first-child{border-top:0}.recent-title{font-size:14px;font-weight:500}.recent-meta{font-size:12px;color:#8994a5}.recent-amount{font-weight:700;white-space:nowrap;font-size:16px}
+.donut-box{justify-content:center}.donut-visual{width:210px;height:210px;flex-basis:210px}.donut-legend{min-width:220px}.legend-row{font-size:12px}
+#tabs{scrollbar-width:none}#tabs::-webkit-scrollbar{display:none}
+@media(min-width:701px){.dash-stats{grid-template-columns:repeat(4,minmax(0,1fr))}.hero-car{padding:28px}.quick-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:700px){.vehicle-selector-panel{display:none}.wrap{padding:0 4px}.top{flex-direction:row;align-items:center}.header-actions{width:auto;flex-wrap:nowrap}.header-actions button{flex:none;font-size:12px;padding:9px 10px}.header-actions #installBtn{display:none!important}main{margin:14px auto;padding:0 14px}.tabs{display:flex;position:sticky;top:0;z-index:20;overflow-x:auto;white-space:nowrap;margin:10px 0 14px;padding:6px;background:#e8eef7;border:1px solid #dfe7f2;box-shadow:0 3px 10px #20344d0c}.tabs .tab{flex:0 0 auto;touch-action:manipulation}.panel{padding:17px;border-radius:22px}.dash-intro{margin:24px 0 20px}.dash-intro h1{font-size:25px}.hero-car{padding:22px;border-radius:28px}.quick-grid{gap:9px}.quick-action{min-height:88px}.donut-box{gap:8px}.donut-legend{width:100%}.donut-visual{margin:auto}.section-head{align-items:center}.section-head h2{font-size:17px}}
+@media(max-width:380px){.brand{font-size:18px}.sub{font-size:9px;letter-spacing:1.5px}.header-actions button{font-size:11px;padding:8px}.quick-action b{font-size:11px}.dash-stat{padding:14px}.dash-stat strong{font-size:21px}}
+
+
+.maint-dashboard-panel{padding:19px}.maint-dash-caption{font-size:12px;margin:-5px 0 13px}
+.maint-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:13px}
+.maint-kpi{border-radius:15px;padding:12px 10px;background:#f4f7fb;min-width:0}
+.maint-kpi strong{display:block;font-size:23px;line-height:1.2}.maint-kpi span{font-size:11px;color:#78869a}
+.maint-kpi.due{background:#fff0f0}.maint-kpi.due strong{color:#c43d4b}
+.maint-kpi.soon{background:#fff7e8}.maint-kpi.soon strong{color:#a76508}
+.maint-kpi.ok{background:#eaf8f1}.maint-kpi.ok strong{color:#087e55}
+.maint-dash-row{padding:12px 0;border-top:1px solid #edf0f5;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.maint-dash-row:first-child{border-top:0}.maint-dash-main{min-width:0}.maint-dash-title{font-size:13px;font-weight:650}.maint-dash-meta{font-size:11px;color:#8994a5;margin-top:3px}
+.maint-dash-right{text-align:right;white-space:nowrap}.maint-dash-right b{display:block;font-size:13px}.maint-dash-right small{font-size:11px;color:#8994a5}
+.maint-status{font-size:10px;padding:3px 8px;border-radius:99px;display:inline-block;margin-top:4px}
+.maint-status.due{background:#ffe4e6;color:#b42332}.maint-status.soon{background:#fff0cf;color:#9a5b00}.maint-status.ok{background:#dff5e9;color:#087e55}
+@media(max-width:380px){.maint-kpi{padding:10px 7px}.maint-kpi strong{font-size:20px}.maint-dash-title{font-size:12px}}
+
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+ <div><div class="brand">🚘 MY CAR MANAGER</div><div class="sub">VEHICLE & EXPENSE MANAGEMENT</div></div>
+ <div class="header-actions"><button class="btn btn-yellow" id="installBtn" hidden>⬇ ติดตั้งแอป</button><button class="btn btn-light" onclick="backupAll()">สำรองข้อมูล</button><button class="btn btn-light" onclick="document.getElementById('restoreFile').click()">กู้คืนข้อมูล</button><input id="restoreFile" type="file" accept=".json,application/json" hidden></div>
+</div></header>
+<main>
+ <div class="panel vehicle-selector-panel">
+  <div class="section-head"><h2>🚗 เลือกรถที่กำลังใช้งาน</h2><button class="btn btn-blue btn-small" onclick="openVehicleForm()">＋ เพิ่มรถ</button></div>
+  <div class="vehicle-strip"><select id="vehicleSelect" aria-label="เลือกรถ"></select><span class="car-chip" id="activeVehicleLabel">ยังไม่ได้เลือกรถ</span></div>
+ </div>
+ <nav class="tabs" id="tabs">
+  <button class="tab active" data-tab="dashboard">ภาพรวม</button><button class="tab" data-tab="vehicles">จัดการรถ</button><button class="tab" data-tab="fuel">ค่าน้ำมัน</button><button class="tab" data-tab="maint">ซ่อมบำรุง</button><button class="tab" data-tab="insurance">ประกันภัย</button><button class="tab" data-tab="act">พ.ร.บ.</button><button class="tab" data-tab="taxinspect">ต่อภาษี/ตรวจสภาพ</button><button class="tab" data-tab="other">ค่าใช้จ่ายอื่นๆ</button><button class="tab" data-tab="reminders">🔔 แจ้งเตือน</button><button class="tab" data-tab="records">🧾 บันทึก</button><button class="tab" data-action="reports">📊 รายงาน</button><button class="tab" data-tab="more">⚙️ เพิ่มเติม</button>
+ </nav>
+ <section id="dashboard" class="page">
+  <div class="dash-intro"><h1>ภาพรวมของคุณ</h1><p>จัดการรถ ค่าใช้จ่าย และกำหนดการสำคัญในที่เดียว</p></div>
+  <div class="hero-car">
+   <div class="hero-top"><span>🚘 รถที่กำลังใช้งาน</span><span class="car-count" id="dashCarCount">0 คัน</span></div>
+   <h2 id="dashCarName">ยังไม่มีข้อมูลรถ</h2>
+   <p id="dashCarMeta">เพิ่มรถเพื่อเริ่มต้นใช้งาน</p>
+   <select id="dashVehicleSelect" aria-label="เลือกรถที่ต้องการดู"><option value="">แสดงข้อมูลรถทุกคัน</option></select>
+  </div>
+  <div class="dash-stats" id="summaryCards"></div>
+  <div class="panel maint-dashboard-panel">
+   <div class="section-head"><h2>🔧 สถานะบำรุงรักษาตามระยะทาง</h2><button class="btn btn-outline" onclick="switchPage('maint')">จัดการรายการ</button></div>
+   <p class="muted maint-dash-caption" id="maintDashSummary">ติดตามเลขไมล์รอบถัดไปของรถทุกคัน และรายการที่ใกล้ถึงกำหนด</p>
+   <div class="maint-kpis" id="maintDashKpis"></div>
+   <div class="maint-dash-list" id="maintDashList"></div>
+  </div>
+  <div class="panel quick-panel">
+   <div class="section-head"><h2>ทางลัด</h2></div>
+   <div class="quick-grid">
+    <button class="quick-action" onclick="switchPage('vehicles');openVehicleForm()"><span>🚗</span><b>เพิ่มรถ</b></button>
+    <button class="quick-action" onclick="switchPage('fuel')"><span>⛽</span><b>เติมน้ำมัน</b></button>
+    <button class="quick-action" onclick="switchPage('maint')"><span>🔧</span><b>ซ่อมบำรุง</b></button>
+    <button class="quick-action" onclick="switchPage('taxinspect')"><span>🛡️</span><b>ประกัน/ภาษี</b></button>
+    <button class="quick-action" onclick="switchPage('other')"><span>🧾</span><b>ค่าใช้จ่าย</b></button>
+    <button class="quick-action" onclick="openReports()"><span>📊</span><b>รายงาน</b></button>
+    <button class="quick-action" onclick="switchPage('reminders')"><span>🔔</span><b>แจ้งเตือน</b></button>
+    <button class="quick-action" onclick="backupAll()"><span>💾</span><b>สำรองข้อมูล</b></button>
+   </div>
+  </div>
+  <div class="panel" id="monthlyPanel">
+   <div class="section-head"><h2>ค่าใช้จ่ายรายเดือน</h2><select id="dashYear" class="year-select" aria-label="เลือกปี"></select></div>
+   <canvas id="monthlyChart" class="monthly-chart" width="900" height="310"></canvas>
+   <div class="chart-key"><i></i> ค่าใช้จ่ายรวม (บาท)</div>
+  </div>
+  <div class="panel recent-panel">
+   <div class="section-head"><h2>รายการล่าสุด</h2><button class="btn btn-outline" onclick="switchPage('other')">ดูทั้งหมด</button></div>
+   <div id="recentRecords"></div>
+  </div>
+  <div class="panel donut-panel">
+   <div class="section-head"><h2>🍩 สัดส่วนค่าใช้จ่ายรวม</h2><span class="muted">เปอร์เซ็นต์ตามหมวด · รวมทุกคัน</span></div>
+   <div class="donut-box"><div class="donut-visual"><canvas id="expenseDonut" width="240" height="240"></canvas><div class="donut-label"><small>ค่าใช้จ่ายรวม</small><b id="donutTotal">฿0</b></div></div><div id="donutLegend" class="donut-legend"></div></div>
+  </div>
+  <div class="panel"><div class="section-head"><h2>รายการใกล้ครบกำหนด</h2><button class="btn btn-outline" onclick="switchPage('reminders')">ดูการแจ้งเตือน</button></div><div id="dueAlerts" class="muted">ยังไม่มีข้อมูล</div></div>
+  <div class="panel"><div class="section-head"><h2>สถิติการใช้น้ำมัน</h2><span class="muted">รถที่เลือก</span></div><canvas id="fuelChart" class="chart" width="900" height="260"></canvas><div id="fuelStats" class="muted"></div></div>
+ </section>
+ <section id="vehicles" class="page hidden">
+  <div class="section-head"><h2>รถยนต์ของฉัน</h2><button class="btn btn-blue btn-small" onclick="openVehicleForm()">＋ เพิ่มรถ</button></div>
+  <div id="vehicleList" class="space-y-3"></div>
+  <div id="vehicleEditor" class="panel hidden">
+   <div class="section-head"><h2 id="vehicleFormTitle">เพิ่มข้อมูลรถ</h2><button class="btn btn-gray btn-small" onclick="closeVehicleForm()">ปิด</button></div>
+   <form id="vehicleForm"><input type="hidden" id="vId"><div class="formgrid">
+    <div><label>ทะเบียนรถ *</label><input id="vPlate" required placeholder="เช่น ขต 199"></div>
+    <div><label>จังหวัด *</label><input id="vProvince" required placeholder="เช่น ระยอง"></div>
+    <div><label>ยี่ห้อ *</label><input id="vBrand" required placeholder="เช่น Toyota"></div>
+    <div><label>รุ่น *</label><input id="vModel" required placeholder="เช่น Hilux Revo"></div>
+    <div><label>สีรถ</label><input id="vColor" placeholder="เช่น ขาว"></div>
+    <div><label>ปีรถ</label><input id="vYear" type="number" min="1900" max="2100" placeholder="เช่น 2022"></div>
+    <div class="full"><label>รายละเอียดเพิ่มเติม</label><textarea id="vNote" placeholder="หมายเหตุ"></textarea></div>
+   </div><div class="form-actions"><button class="btn btn-blue" type="submit">บันทึกข้อมูลรถ</button><button class="btn btn-gray" type="button" onclick="closeVehicleForm()">ยกเลิก</button></div></form>
+  </div>
+ </section>
+ <section id="fuel" class="page hidden">
+  <div class="section-head"><h2>⛽ บันทึกค่าน้ำมัน</h2><span class="muted">ข้อมูลของรถที่เลือก</span></div>
+  <div class="panel"><form id="fuelForm"><input type="hidden" id="fuelEditId"><div class="formgrid">
+   <div><label>วันที่ *</label><input id="fDate" type="date" required></div><div><label>เลขไมล์ (กม.) *</label><input id="fOdo" type="number" min="0" required></div>
+   <div><label>ประเภทน้ำมัน</label><select id="fType"><option>เบนซิน 95 (ULG 95)</option><option>เบนซิน 91</option><option>แก๊สโซฮอล์ 95 (E10)</option><option>แก๊สโซฮอล์ 91 (E10)</option><option>E20</option><option>E85</option><option>ดีเซล B7</option><option>ดีเซล B10</option><option>ดีเซล B20</option><option>ดีเซล B7 พรีเมียม</option><option>ดีเซล B10 พรีเมียม</option><option>ดีเซลหมุนเร็วธรรมดา</option><option>NGV</option><option>LPG</option><option>อื่นๆ</option></select></div>
+   <div><label>จำนวนเงิน (บาท) *</label><input id="fAmount" type="number" min="0" step=".01" required></div><div><label>จำนวนลิตร *</label><input id="fLiters" type="number" min="0" step=".001" required></div><div><label>สถานีบริการ</label><input id="fStation" placeholder="ชื่อปั๊ม"></div>
+  </div><div class="form-actions"><button class="btn btn-blue">บันทึกค่าน้ำมัน</button><button type="button" class="btn btn-green" onclick="exportCSV('fuel')">ส่งออก CSV</button></div></form></div>
+  <div class="panel"><div class="section-head"><h2>ประวัติการเติมน้ำมัน</h2><span id="fuelTotal" class="muted"></span></div><div class="table-wrap"><table><thead><tr><th>วันที่ / เลขไมล์</th><th>ประเภท / ลิตร</th><th>สถานี</th><th class="num">บาท</th><th>จัดการ</th></tr></thead><tbody id="fuelRows"></tbody></table></div></div>
+ </section>
+ <section id="maint" class="page hidden">
+  <div class="section-head"><h2>🔧 ซ่อมบำรุง</h2><span class="muted">ข้อมูลของรถที่เลือก</span></div>
+  <div class="grid" id="maintAlerts"></div>
+  <div class="panel" style="margin-top:14px"><form id="maintForm"><input type="hidden" id="maintEditId"><div class="formgrid">
+   <div><label>วันที่ *</label><input id="mDate" type="date" required></div><div><label>เลขไมล์ (กม.) *</label><input id="mOdo" type="number" min="0" required></div>
+   <div><label>รายการ *</label><select id="mType" onchange="applyMaintStandard()"><option value="น้ำมันเครื่อง">น้ำมันเครื่อง</option><option value="กรองน้ำมันเครื่อง">กรองน้ำมันเครื่อง</option><option value="กรองอากาศ">กรองอากาศ</option><option value="กรองแอร์">กรองแอร์</option><option value="กรองเชื้อเพลิง">กรองเชื้อเพลิง</option><option value="น้ำมันเกียร์">น้ำมันเกียร์</option><option value="น้ำมันเฟืองท้าย">น้ำมันเฟืองท้าย</option><option value="น้ำมันเบรก">น้ำมันเบรก</option><option value="น้ำยาหล่อเย็น">น้ำยาหล่อเย็น</option><option value="หัวเทียน">หัวเทียน</option><option value="สายพาน">สายพาน</option><option value="ยางรถยนต์">ยางรถยนต์</option><option value="สลับยาง/ตั้งศูนย์">สลับยาง / ตั้งศูนย์</option><option value="ระบบเบรก">ระบบเบรก</option><option value="แบตเตอรี่">แบตเตอรี่</option><option value="ระบบปรับอากาศ">ระบบปรับอากาศ</option><option value="อื่นๆ">อื่นๆ</option></select></div>
+   <div><label>ค่าใช้จ่าย (บาท) *</label><input id="mCost" type="number" min="0" step=".01" required></div><div><label>อู่ / สถานที่</label><input id="mShop"></div><div><label>ระยะมาตรฐาน (กม.)</label><input id="mInterval" type="number" min="0" value="10000" oninput="calcMaintNext()"></div><div><label>แจ้งเตือนล่วงหน้า (กม.)</label><input id="mAlertKm" type="number" min="0" value="1000"></div><div><label>รอบถัดไป (กม.)</label><input id="mNext" type="number" min="0" placeholder="คำนวณอัตโนมัติ"></div><div><label>วันที่ครบกำหนดครั้งถัดไป (ถ้ามี)</label><input id="mNextDate" type="date"></div><div class="full"><label>หมายเหตุ</label><textarea id="mNote"></textarea></div>
+  </div><div class="form-actions"><button class="btn btn-blue">บันทึกซ่อมบำรุง</button><button type="button" class="btn btn-green" onclick="exportCSV('maint')">ส่งออก CSV</button></div></form></div>
+  <div class="panel"><div class="section-head"><h2>📍 ตารางบำรุงรักษาตามระยะทาง</h2><span class="muted">เทียบเลขไมล์ล่าสุดกับรอบถัดไป</span></div><div id="maintSchedule" class="grid"></div></div>
+  <div class="panel"><div class="section-head"><h2>ประวัติซ่อมบำรุง</h2></div><div class="table-wrap"><table><thead><tr><th>วันที่ / ไมล์</th><th>รายการ / สถานที่</th><th class="num">บาท</th><th>จัดการ</th></tr></thead><tbody id="maintRows"></tbody></table></div></div>
+ </section>
+ <section id="insurance" class="page hidden">
+  <div class="section-head"><h2>🛡️ ประกันภัยรถยนต์</h2><span class="muted">ข้อมูลของรถที่เลือก</span></div>
+  <div class="panel"><form id="insuranceForm"><input type="hidden" id="insuranceEditId"><div class="formgrid">
+   <div><label>บริษัทประกัน</label><input id="iCompany" required></div><div><label>ประเภทประกัน</label><select id="iType"><option>ชั้น 1</option><option>ชั้น 2+</option><option>ชั้น 2</option><option>ชั้น 3+</option><option>ชั้น 3</option><option>อื่นๆ</option></select></div>
+   <div><label>เลขกรมธรรม์</label><input id="iPolicy"></div><div><label>เบี้ยประกัน (บาท) *</label><input id="iCost" type="number" min="0" step=".01" required></div>
+   <div><label>วันเริ่มคุ้มครอง *</label><input id="iStart" type="date" required></div><div><label>วันหมดอายุ *</label><input id="iEnd" type="date" required></div>
+   <div class="full"><label>หมายเหตุ</label><textarea id="iNote"></textarea></div>
+  </div><div class="form-actions"><button class="btn btn-blue">บันทึกประกันภัย</button><button type="button" class="btn btn-green" onclick="exportCSV('insurance')">ส่งออก CSV</button></div></form></div>
+  <div class="panel"><div class="section-head"><h2>ประวัติประกันภัย</h2></div><div class="table-wrap"><table><thead><tr><th>บริษัท / ประเภท</th><th>คุ้มครอง</th><th class="num">เบี้ย (บาท)</th><th>จัดการ</th></tr></thead><tbody id="insuranceRows"></tbody></table></div></div>
+ </section>
+ <section id="act" class="page hidden">
+  <div class="section-head"><h2>📄 พ.ร.บ. รถยนต์</h2><span class="muted">ข้อมูลของรถที่เลือก</span></div>
+  <div class="panel"><form id="actForm"><input type="hidden" id="actEditId"><div class="formgrid">
+   <div><label>บริษัท / ผู้จำหน่าย</label><input id="aCompany"></div><div><label>เลขกรมธรรม์ / เลขอ้างอิง</label><input id="aPolicy"></div>
+   <div><label>ค่า พ.ร.บ. (บาท) *</label><input id="aCost" type="number" min="0" step=".01" required></div><div><label>วันเริ่มคุ้มครอง *</label><input id="aStart" type="date" required></div>
+   <div><label>วันหมดอายุ *</label><input id="aEnd" type="date" required></div><div><label>หมายเหตุ</label><input id="aNote"></div>
+  </div><div class="form-actions"><button class="btn btn-blue">บันทึก พ.ร.บ.</button><button type="button" class="btn btn-green" onclick="exportCSV('act')">ส่งออก CSV</button></div></form></div>
+  <div class="panel"><div class="section-head"><h2>ประวัติ พ.ร.บ.</h2></div><div class="table-wrap"><table><thead><tr><th>บริษัท / เลขอ้างอิง</th><th>คุ้มครอง</th><th class="num">บาท</th><th>จัดการ</th></tr></thead><tbody id="actRows"></tbody></table></div></div>
+ </section>
+ <section id="taxinspect" class="page hidden">
+  <div class="section-head"><h2>🪪 ต่อภาษีและตรวจสภาพรถ</h2><span class="muted">บันทึกกำหนดวันต่ออายุและค่าใช้จ่ายของรถที่เลือก</span></div>
+  <div class="grid2">
+   <div class="panel"><div class="section-head"><h2>🧾 ต่อภาษีรถประจำปี</h2></div><form id="taxForm"><input type="hidden" id="taxEditId"><div class="formgrid">
+    <div><label>วันที่ดำเนินการ *</label><input id="tDate" type="date" required></div><div><label>วันหมดอายุภาษี *</label><input id="tEnd" type="date" required></div>
+    <div><label>ค่าภาษี (บาท) *</label><input id="tCost" type="number" min="0" step=".01" required></div><div><label>เลขอ้างอิง / หน่วยงาน</label><input id="tRef" placeholder="กรมการขนส่งทางบก"></div>
+    <div class="full"><label>หมายเหตุ</label><input id="tNote"></div>
+   </div><div class="form-actions"><button class="btn btn-blue">บันทึกต่อภาษี</button><button type="button" class="btn btn-green" onclick="exportCSV('tax')">ส่งออก CSV</button></div></form>
+   <div class="section-head" style="margin-top:16px"><h2>ประวัติต่อภาษี</h2></div><div class="table-wrap"><table><thead><tr><th>วันที่ / หมดอายุ</th><th>อ้างอิง</th><th class="num">บาท</th><th>จัดการ</th></tr></thead><tbody id="taxRows"></tbody></table></div></div>
+   <div class="panel"><div class="section-head"><h2>🔍 ตรวจสภาพรถ</h2></div><form id="inspectionForm"><input type="hidden" id="inspectionEditId"><div class="formgrid">
+    <div><label>วันที่ตรวจ *</label><input id="sDate" type="date" required></div><div><label>วันครบกำหนดตรวจครั้งถัดไป *</label><input id="sEnd" type="date" required></div>
+    <div><label>ผลการตรวจ</label><select id="sResult"><option>ผ่าน</option><option>ผ่านแบบมีเงื่อนไข</option><option>ไม่ผ่าน</option><option>รอตรวจ</option></select></div><div><label>ค่าใช้จ่าย (บาท)</label><input id="sCost" type="number" min="0" step=".01" value="0"></div>
+    <div><label>สถานตรวจสภาพ / หน่วยงาน</label><input id="sCenter"></div><div><label>เลขใบรับรอง</label><input id="sRef"></div><div class="full"><label>หมายเหตุ</label><input id="sNote"></div>
+   </div><div class="form-actions"><button class="btn btn-blue">บันทึกผลตรวจสภาพ</button><button type="button" class="btn btn-green" onclick="exportCSV('inspection')">ส่งออก CSV</button></div></form>
+   <div class="section-head" style="margin-top:16px"><h2>ประวัติตรวจสภาพ</h2></div><div class="table-wrap"><table><thead><tr><th>วันที่ / ครบกำหนด</th><th>ผลตรวจ / หน่วยงาน</th><th class="num">บาท</th><th>จัดการ</th></tr></thead><tbody id="inspectionRows"></tbody></table></div></div>
+  </div>
+ </section>
+ <section id="other" class="page hidden">
+  <div class="section-head"><h2>🧾 ค่าใช้จ่ายอื่นๆ</h2><span class="muted">ภาษีรถ • ชุดแต่ง • ค่าใช้จ่ายทั่วไป</span></div>
+  <div class="panel"><form id="otherForm"><input type="hidden" id="otherEditId"><div class="formgrid">
+   <div><label>วันที่ *</label><input id="oDate" type="date" required></div>
+   <div><label>หมวดค่าใช้จ่าย *</label><select id="oCategory" required><option value="ภาษีรถ">ภาษีรถ</option><option value="ชุดแต่ง/อุปกรณ์">ชุดแต่ง/อุปกรณ์</option><option value="ค่าจอดรถ">ค่าจอดรถ</option><option value="ค่าทางด่วน">ค่าทางด่วน</option><option value="ล้างรถ/ดูแลรถ">ล้างรถ/ดูแลรถ</option><option value="ค่าใช้จ่ายอื่นๆ">ค่าใช้จ่ายอื่นๆ</option></select></div>
+   <div><label>รายละเอียด *</label><input id="oDetail" required placeholder="เช่น ต่อภาษีประจำปี / ติดตั้งกล้อง"></div>
+   <div><label>จำนวนเงิน (บาท) *</label><input id="oCost" type="number" min="0" step=".01" required></div>
+   <div><label>ร้านค้า / หน่วยงาน</label><input id="oVendor" placeholder="ชื่อร้านหรือหน่วยงาน"></div>
+   <div><label>หมายเหตุ</label><input id="oNote" placeholder="รายละเอียดเพิ่มเติม"></div>
+  </div><div class="form-actions"><button class="btn btn-blue" type="submit">บันทึกค่าใช้จ่าย</button><button type="button" class="btn btn-green" onclick="exportCSV('other')">ส่งออก CSV</button></div></form></div>
+  <div class="panel"><div class="section-head"><h2>ประวัติค่าใช้จ่ายอื่นๆ</h2><span class="muted" id="otherTotal"></span></div><div class="table-wrap"><table><thead><tr><th>วันที่</th><th>หมวด / รายละเอียด</th><th>ร้านค้า / หน่วยงาน</th><th class="num">จำนวนเงิน</th><th>จัดการ</th></tr></thead><tbody id="otherRows"></tbody></table></div></div>
+ </section>
+ <section id="reminders" class="page hidden">
+  <div class="section-head"><h2>🔔 ศูนย์แจ้งเตือนและกำหนดการ</h2><span class="muted">ตรวจสอบรถทุกคัน</span></div>
+  <div class="panel"><div class="section-head"><h2>ตั้งค่าการแจ้งเตือน</h2><span class="muted" id="notifyPermission">กำลังตรวจสอบสิทธิ์</span></div>
+   <div class="formgrid"><div><label>แจ้งเตือนก่อนหมดอายุ (วัน)</label><input id="remindDays" type="number" min="0" max="365" value="30"></div><div><label>แจ้งเตือนก่อนถึงรอบซ่อม (กม.)</label><input id="remindKm" type="number" min="0" max="50000" value="1000"></div></div>
+   <div class="form-actions"><button class="btn btn-blue" type="button" onclick="saveReminderSettings()">บันทึกการตั้งค่า</button><button class="btn btn-green" type="button" onclick="enableNotifications()">เปิดการแจ้งเตือน</button><button class="btn btn-gray" type="button" onclick="testNotification()">ทดสอบแจ้งเตือน</button></div>
+   <div class="notice" style="margin-top:12px">ระบบตรวจสอบเมื่อเปิดแอปและแสดงรายการในหน้านี้ หากอนุญาต Notification จะมีการแจ้งเตือนขณะเปิดแอปด้วย บน iPhone แนะนำเพิ่มแอปไปยังหน้าจอโฮมก่อน การแจ้งเตือนขณะปิดแอปต้องมีระบบ Push/เซิร์ฟเวอร์เพิ่มเติม</div>
+  </div><div class="panel"><div class="section-head"><h2>รายการที่ใกล้ครบกำหนด</h2><button class="btn btn-gray btn-small" onclick="refreshReminders()">↻ ตรวจสอบอีกครั้ง</button></div><div id="reminderList"></div></div>
+ </section>
+ <div class="footer">Car Manager Pro • ข้อมูลเก็บไว้ในอุปกรณ์นี้ โปรดสำรองข้อมูลเป็นประจำ</div>
+</main>
+<script>
+'use strict';
+const DB_KEY='carManagerPro_v1';
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toISOString().slice(0,10);
+const money=n=>(Number(n)||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+let db=loadDB(), activeId=localStorage.getItem('cmp_active')||'';
+function emptyDB(){return {version:1,vehicles:[],records:{fuel:[],maint:[],insurance:[],act:[],other:[],tax:[],inspection:[]}}}
+function loadDB(){try{const x=JSON.parse(localStorage.getItem(DB_KEY));if(x&&Array.isArray(x.vehicles)&&x.records){for(const k of ['fuel','maint','insurance','act','other','tax','inspection'])if(!Array.isArray(x.records[k]))x.records[k]=[];return x}}catch(e){}return emptyDB()}
+function save(){localStorage.setItem(DB_KEY,JSON.stringify(db));}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function currentCar(){return db.vehicles.find(v=>v.id===activeId)||null}
+function records(type,id=activeId){return (db.records[type]||[]).filter(r=>r.vehicleId===id).sort((a,b)=>(b.date||'').localeCompare(a.date||''))}
+function switchPage(name,navKey=null){
+ const recordPages=['records','fuel','maint','insurance','act','other','taxinspect'];
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==name));
+ document.querySelectorAll('#tabs .tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ if(name==='dashboard')renderDashboard();if(name==='vehicles')renderVehicles();if(name==='fuel')renderFuel();if(name==='maint')renderMaint();if(name==='insurance')renderInsurance();if(name==='act')renderAct();if(name==='other')renderOther();if(name==='taxinspect'){renderTax();renderInspection()}if(name==='reminders')refreshReminders();
+ const active=document.querySelector('#tabs .tab.active');if(active)active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+function openReports(){switchPage('dashboard');requestAnimationFrame(()=>document.getElementById('monthlyPanel')?.scrollIntoView({behavior:'smooth',block:'start'}))}
+function openMore(){switchPage('more')}
+function openRecords(){switchPage('records')}
+// One delegated handler covers every navigation control, including sections parsed after this script.
+document.addEventListener('click',e=>{const b=e.target.closest('#tabs [data-tab], #tabs [data-action]');if(!b)return;if(b.dataset.action==='reports'){openReports();return}if(b.dataset.tab)switchPage(b.dataset.tab)});
+function renderVehicleSelect(){const sel=$('vehicleSelect');sel.innerHTML=db.vehicles.length?db.vehicles.map(v=>`<option value="${v.id}">${esc(v.plate)} ${esc(v.province)} • ${esc(v.brand)} ${esc(v.model)}</option>`).join(''):'<option value="">ยังไม่มีรถ กรุณาเพิ่มรถ</option>';if(!db.vehicles.some(v=>v.id===activeId))activeId=db.vehicles[0]?.id||'';sel.value=activeId;localStorage.setItem('cmp_active',activeId);const v=currentCar();$('activeVehicleLabel').textContent=v?`${v.brand} ${v.model} • ${v.color||'ไม่ระบุสี'}`:'ยังไม่ได้เลือกรถ';sel.disabled=!db.vehicles.length}
+$('vehicleSelect').addEventListener('change',e=>{activeId=e.target.value;localStorage.setItem('cmp_active',activeId);renderVehicleSelect();const page=document.querySelector('.page:not(.hidden)')?.id||'dashboard';switchPage(page)});
+function openVehicleForm(v=null){$('vehicleEditor').classList.remove('hidden');$('vehicleFormTitle').textContent=v?'แก้ไขข้อมูลรถ':'เพิ่มข้อมูลรถ';$('vehicleForm').reset();$('vId').value=v?.id||'';['Plate','Province','Brand','Model','Color','Year','Note'].forEach(k=>{$('v'+k).value=v?.[k.toLowerCase()]||''});$('vehicleEditor').scrollIntoView({behavior:'smooth',block:'start'})}
+function closeVehicleForm(){$('vehicleEditor').classList.add('hidden')}
+$('vehicleForm').addEventListener('submit',e=>{e.preventDefault();const id=$('vId').value;const v={id:id||uid(),plate:$('vPlate').value.trim(),province:$('vProvince').value.trim(),brand:$('vBrand').value.trim(),model:$('vModel').value.trim(),color:$('vColor').value.trim(),year:$('vYear').value,note:$('vNote').value.trim()};if(id){const i=db.vehicles.findIndex(x=>x.id===id);if(i>=0)db.vehicles[i]=v}else{db.vehicles.push(v);activeId=v.id}save();renderVehicleSelect();renderVehicles();closeVehicleForm();});
+function renderVehicles(){$('vehicleList').innerHTML=db.vehicles.length?db.vehicles.map(v=>`<div class="vehicle-card"><div><h3>${esc(v.plate)} ${esc(v.province)}</h3><div class="vehicle-meta">${esc(v.brand)} ${esc(v.model)} • ${esc(v.color||'ไม่ระบุสี')} ${v.year?'• '+esc(v.year):''}</div></div><div class="form-actions" style="margin:0"><button class="btn btn-blue btn-small" onclick="selectCar('${v.id}')">เลือก</button><button class="btn btn-gray btn-small" onclick="editCar('${v.id}')">แก้ไข</button><button class="btn btn-red btn-small" onclick="deleteCar('${v.id}')">ลบ</button></div></div>`).join(''):'<div class="empty">ยังไม่มีข้อมูลรถ กด “เพิ่มรถ” เพื่อเริ่มต้น</div>'}
+function selectCar(id){activeId=id;renderVehicleSelect();switchPage('dashboard')}
+function editCar(id){const v=db.vehicles.find(x=>x.id===id);if(v)openVehicleForm(v)}
+function deleteCar(id){const v=db.vehicles.find(x=>x.id===id);if(!v||!confirm(`ลบรถ ${v.plate} และประวัติทั้งหมดของรถคันนี้ใช่หรือไม่?`))return;db.vehicles=db.vehicles.filter(x=>x.id!==id);Object.keys(db.records).forEach(k=>db.records[k]=db.records[k].filter(r=>r.vehicleId!==id));if(activeId===id)activeId=db.vehicles[0]?.id||'';save();renderVehicleSelect();renderVehicles();renderDashboard()}
+function requireCar(){if(!currentCar()){alert('กรุณาเพิ่มและเลือกรถก่อนบันทึกข้อมูล');switchPage('vehicles');return false}return true}
+function addRecord(type,record,editId=''){if(!requireCar())return;if(editId){const i=db.records[type].findIndex(r=>r.id===editId);if(i>=0)db.records[type][i]={...db.records[type][i],...record};}else db.records[type].unshift({id:uid(),vehicleId:activeId,...record});save()}
+function beginEdit(type,id){const r=db.records[type].find(x=>x.id===id);if(!r)return;const map={
+ fuel:{form:'fuelForm',edit:'fuelEditId',page:'fuel',fields:{fDate:'date',fOdo:'odo',fType:'type',fAmount:'amount',fLiters:'liters',fStation:'station'}},
+ maint:{form:'maintForm',edit:'maintEditId',page:'maint',fields:{mDate:'date',mOdo:'odo',mType:'type',mCost:'cost',mShop:'shop',mNext:'nextOdo',mInterval:'intervalKm',mAlertKm:'alertBeforeKm',mNextDate:'nextDate',mNote:'note'}},
+ insurance:{form:'insuranceForm',edit:'insuranceEditId',page:'insurance',fields:{iCompany:'company',iType:'type',iPolicy:'policy',iCost:'cost',iStart:'start',iEnd:'end',iNote:'note'}},
+ act:{form:'actForm',edit:'actEditId',page:'act',fields:{aCompany:'company',aPolicy:'policy',aCost:'cost',aStart:'start',aEnd:'end',aNote:'note'}},
+ other:{form:'otherForm',edit:'otherEditId',page:'other',fields:{oDate:'date',oCategory:'category',oDetail:'detail',oCost:'cost',oVendor:'vendor',oNote:'note'}},
+ tax:{form:'taxForm',edit:'taxEditId',page:'taxinspect',fields:{tDate:'date',tEnd:'end',tCost:'cost',tRef:'reference',tNote:'note'}},
+ inspection:{form:'inspectionForm',edit:'inspectionEditId',page:'taxinspect',fields:{sDate:'date',sEnd:'end',sResult:'result',sCost:'cost',sCenter:'center',sRef:'reference',sNote:'note'}}
+ }[type];if(!map)return;switchPage(map.page);$(map.edit).value=id;Object.entries(map.fields).forEach(([field,key])=>$(field).value=r[key]??'');$(map.form).scrollIntoView({behavior:'smooth',block:'start'});const submit=$(map.form).querySelector('button[type="submit"],button:not([type])');if(submit)submit.textContent='บันทึกการแก้ไข'}
+function resetEdit(type){const ids={fuel:['fuelEditId','fuelForm','บันทึกค่าน้ำมัน'],maint:['maintEditId','maintForm','บันทึกซ่อมบำรุง'],insurance:['insuranceEditId','insuranceForm','บันทึกประกันภัย'],act:['actEditId','actForm','บันทึก พ.ร.บ.'],other:['otherEditId','otherForm','บันทึกค่าใช้จ่าย'],tax:['taxEditId','taxForm','บันทึกต่อภาษี'],inspection:['inspectionEditId','inspectionForm','บันทึกผลตรวจสภาพ']};const x=ids[type];if(x){$(x[0]).value='';const b=$(x[1]).querySelector('button[type="submit"],button:not([type])');if(b)b.textContent=x[2];}}
+function delRecord(type,id){if(!confirm('ยืนยันลบรายการนี้?'))return;db.records[type]=db.records[type].filter(r=>r.id!==id);save();({fuel:renderFuel,maint:renderMaint,insurance:renderInsurance,act:renderAct,other:renderOther,tax:renderTax,inspection:renderInspection})[type]();renderDashboard()}
+function rowEmpty(cols,msg='ยังไม่มีรายการ'){return `<tr><td colspan="${cols}" class="empty">${msg}</td></tr>`}
+$('fDate').value=today();$('mDate').value=today();
+$('fuelForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('fuel',{date:$('fDate').value,odo:+$('fOdo').value,type:$('fType').value,amount:+$('fAmount').value,liters:+$('fLiters').value,station:$('fStation').value},$('fuelEditId').value);e.target.reset();resetEdit('fuel');$('fDate').value=today();renderFuel();renderDashboard()});
+function renderFuel(){const rs=records('fuel');$('fuelRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.date)}<br><span class="muted">${Number(r.odo).toLocaleString()} กม.</span></td><td>${esc(r.type)}<br><span class="muted">${esc(r.liters)} ลิตร</span></td><td>${esc(r.station||'-')}</td><td class="num">${money(r.amount)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('fuel','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('fuel','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(5);$('fuelTotal').textContent=`${rs.length} รายการ • ${money(rs.reduce((s,r)=>s+r.amount,0))} บาท`}
+const MAINT_STANDARDS={'น้ำมันเครื่อง':10000,'กรองน้ำมันเครื่อง':10000,'กรองอากาศ':20000,'กรองแอร์':20000,'กรองเชื้อเพลิง':20000,'น้ำมันเกียร์':40000,'น้ำมันเฟืองท้าย':40000,'น้ำมันเบรก':40000,'น้ำยาหล่อเย็น':40000,'หัวเทียน':40000,'สายพาน':60000,'ยางรถยนต์':10000,'สลับยาง/ตั้งศูนย์':10000,'ระบบเบรก':20000,'แบตเตอรี่':40000,'ระบบปรับอากาศ':20000,'อื่นๆ':10000};
+function applyMaintStandard(){const t=$('mType').value;$('mInterval').value=MAINT_STANDARDS[t]||10000;calcMaintNext()}
+function calcMaintNext(){const odo=Number($('mOdo').value||0),iv=Number($('mInterval').value||0);if(odo>0&&iv>0)$('mNext').value=odo+iv}
+$('mOdo').addEventListener('input',calcMaintNext);
+function drawExpenseDonut(){const c=$('expenseDonut');if(!c)return;const totals=(typeof dashFilter!=='undefined'&&dashFilter!=='all')?allTotals(dashFilter):allTotals();const groups=[['น้ำมัน',totals.fuel,'#2877cc'],['ซ่อมบำรุง',totals.maint,'#11a078'],['ประกันภัย',totals.insurance,'#e5a12b'],['พ.ร.บ.',totals.act,'#8967c8'],['อื่นๆ',totals.other,'#e16b85'],['ภาษีรถ',totals.tax,'#0f9b8e'],['ตรวจสภาพ',totals.inspection,'#64748b']];const total=groups.reduce((a,x)=>a+x[1],0);$('donutTotal').textContent=money(total);const ctx=c.getContext('2d'),cx=120,cy=120,r=88;ctx.clearRect(0,0,240,240);let a=-Math.PI/2;if(!total){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.lineWidth=24;ctx.strokeStyle='#e7edf5';ctx.stroke()}else groups.forEach(g=>{if(g[1]<=0)return;const b=a+g[1]/total*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,a,b);ctx.strokeStyle=g[2];ctx.lineWidth=24;ctx.lineCap='butt';ctx.stroke();a=b});$('donutLegend').innerHTML=groups.map(g=>`<div class="legend-row"><i class="legend-swatch" style="background:${g[2]}"></i><span class="legend-name">${g[0]}</span><span class="legend-value">${total?(g[1]/total*100).toFixed(1):'0.0'}%<small>${money(g[1])} บาท</small></span></div>`).join('')}
+$('maintForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('maint',{date:$('mDate').value,odo:+$('mOdo').value,type:$('mType').value,cost:+$('mCost').value,shop:$('mShop').value,nextOdo:+$('mNext').value||null,intervalKm:+$('mInterval').value||0,alertBeforeKm:+$('mAlertKm').value||1000,nextDate:$('mNextDate').value||'',note:$('mNote').value},$('maintEditId').value);e.target.reset();resetEdit('maint');$('mDate').value=today();renderMaint();renderDashboard()});
+const intervals=MAINT_STANDARDS;
+function renderMaint(){const rs=records('maint');$('maintRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.date)}<br><span class="muted">${Number(r.odo).toLocaleString()} กม.</span></td><td>${esc(r.type)}<br><span class="muted">${esc(r.shop||'')}</span></td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('maint','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('maint','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(4);const maxOdo=Math.max(0,...rs.map(r=>+r.odo||0),...records('fuel').map(r=>+r.odo||0));$('maintAlerts').innerHTML=Object.entries(intervals).map(([type,iv])=>{const last=rs.find(r=>r.type===type);if(!last)return `<div class="stat"><div class="label">${type}</div><strong>ยังไม่มีข้อมูล</strong><small>รอการบันทึกครั้งแรก • รอบ ${iv.toLocaleString()} กม.</small></div>`;const next=last.nextOdo||(+last.odo+(+last.intervalKm||iv));const remain=next-maxOdo;return `<div class="stat"><div class="label">${type}</div><strong>${next.toLocaleString()} กม.</strong><small style="color:${remain<=0?'#c43d4b':remain<=(last.alertBeforeKm??1000)?'#a76508':'#087e55'}">${remain<=0?'เลยกำหนด':`เหลือ ${remain.toLocaleString()} กม.`}</small></div>`}).join('');$('maintSchedule').innerHTML=Object.entries(intervals).map(([type,iv])=>{const last=rs.find(r=>r.type===type);if(!last)return `<div class="stat"><div class="label">${type}</div><strong>ยังไม่เคยบันทึก</strong><small>รอบมาตรฐาน ${iv.toLocaleString()} กม.</small></div>`;const interval=+last.intervalKm||iv,next=+last.nextOdo||(+last.odo+interval),remain=next-maxOdo,alert=+(last.alertBeforeKm??1000);const status=remain<=0?'ถึงกำหนดแล้ว':remain<=alert?'ใกล้ถึงกำหนด':'ปกติ';return `<div class="stat"><div class="label">${type}</div><strong>${next.toLocaleString()} กม.</strong><small>ทำล่าสุด ${(+last.odo||0).toLocaleString()} กม. • รอบ ${interval.toLocaleString()} กม.</small><small style="color:${remain<=0?'#c43d4b':remain<=alert?'#a76508':'#087e55'}">${status} • ${remain<=0?`เกิน ${Math.abs(remain).toLocaleString()} กม.`:`เหลือ ${remain.toLocaleString()} กม.`}</small></div>`}).join('')}
+$('insuranceForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('insurance',{company:$('iCompany').value,type:$('iType').value,policy:$('iPolicy').value,cost:+$('iCost').value,start:$('iStart').value,end:$('iEnd').value,note:$('iNote').value},$('insuranceEditId').value);e.target.reset();resetEdit('insurance');renderInsurance();renderDashboard()});
+function renderInsurance(){const rs=records('insurance');$('insuranceRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.company)}<br><span class="muted">${esc(r.type)} • ${esc(r.policy||'-')}</span></td><td>${esc(r.start)} ถึง ${esc(r.end)}<br>${dateStatus(r.end)}</td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('insurance','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('insurance','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(4)}
+$('oDate').value=today();
+$('otherForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('other',{date:$('oDate').value,category:$('oCategory').value,detail:$('oDetail').value.trim(),cost:+$('oCost').value,vendor:$('oVendor').value.trim(),note:$('oNote').value.trim()},$('otherEditId').value);e.target.reset();resetEdit('other');$('oDate').value=today();renderOther();renderDashboard()});
+function renderOther(){const rs=records('other');$('otherRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.date)}</td><td>${esc(r.category)}<br><span class="muted">${esc(r.detail||'')}</span></td><td>${esc(r.vendor||'-')}</td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('other','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('other','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(5);$('otherTotal').textContent=`${rs.length} รายการ • ${money(rs.reduce((a,r)=>a+(+r.cost||0),0))} บาท`}
+$('actForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('act',{company:$('aCompany').value,policy:$('aPolicy').value,cost:+$('aCost').value,start:$('aStart').value,end:$('aEnd').value,note:$('aNote').value},$('actEditId').value);e.target.reset();resetEdit('act');renderAct();renderDashboard()});
+function renderAct(){const rs=records('act');$('actRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.company||'-')}<br><span class="muted">${esc(r.policy||'-')}</span></td><td>${esc(r.start)} ถึง ${esc(r.end)}<br>${dateStatus(r.end)}</td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('act','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('act','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(4)}
+function dateStatus(date){if(!date)return '';const days=Math.ceil((new Date(date+'T23:59:59')-new Date())/86400000);return days<0?'<span class="danger">หมดอายุแล้ว</span>':days<=30?`<span style="color:#a76508">เหลือ ${days} วัน</span>`:'<span style="color:#087e55">ยังมีผล</span>'}
+function allTotals(id=null){const types=['fuel','maint','insurance','act','other','tax','inspection'];const out={fuel:0,maint:0,insurance:0,act:0,other:0,tax:0,inspection:0};types.forEach(t=>(id?records(t,id):(db.records[t]||[])).forEach(r=>out[t]+=+(r.amount??r.cost)||0));return out}
+let dashFilter='all';
+function dashRecords(){
+ const types=['fuel','maint','insurance','act','other','tax','inspection'];
+ return types.flatMap(type=>(db.records[type]||[]).filter(r=>dashFilter==='all'||r.vehicleId===dashFilter).map(r=>({...r,_type:type,_cost:+(r.amount??r.cost)||0})));
+}
+function dashMoney(v){return money(v||0)}
+function renderDashVehicle(){
+ const sel=$('dashVehicleSelect');if(!sel)return;
+ sel.innerHTML='<option value="all">แสดงข้อมูลรถทุกคัน</option>'+db.vehicles.map(v=>`<option value="${v.id}">${esc(v.plate)} ${esc(v.province)} • ${esc(v.brand)} ${esc(v.model)}</option>`).join('');
+ sel.value=dashFilter;
+ const v=dashFilter==='all'?null:db.vehicles.find(x=>x.id===dashFilter);
+ $('dashCarCount').textContent=`${db.vehicles.length} คัน`;
+ $('dashCarName').textContent=v?`${v.brand} ${v.model}`:(currentCar()?`${currentCar().brand} ${currentCar().model}`:'เพิ่มรถคันแรกของคุณ');
+ $('dashCarMeta').textContent=v?`${v.plate} ${v.province}${v.year?' · '+v.year:''}`:db.vehicles.length?`รถทั้งหมด ${db.vehicles.length} คัน · ดูภาพรวมค่าใช้จ่ายรวม`:'เพิ่มข้อมูลรถเพื่อเริ่มจัดการค่าใช้จ่าย';
+}
+$('dashVehicleSelect')?.addEventListener('change',e=>{dashFilter=e.target.value;renderDashboard()});
+function drawMonthlyChart(){
+ const c=$('monthlyChart');if(!c)return;const ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ const yr=+$('dashYear').value||new Date().getFullYear(),rs=dashRecords(),vals=Array(12).fill(0);
+ rs.forEach(r=>{if((r.date||'').slice(0,4)===String(yr)){const m=+(r.date||'').slice(5,7)-1;if(m>=0&&m<12)vals[m]+=r._cost}});
+ const max=Math.max(100,...vals),left=58,right=16,top=18,bottom=43,pw=w-left-right,ph=h-top-bottom;
+ ctx.font='13px sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillStyle='#929bad';
+ for(let j=0;j<=3;j++){const y=top+ph*j/3;ctx.strokeStyle='#e8edf4';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillText(shortMoney(max*(1-j/3)),left-9,y)}
+ const months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],slot=pw/12,bw=Math.min(34,slot*.52);
+ vals.forEach((v,i)=>{const bh=v/max*ph,x=left+i*slot+(slot-bw)/2,y=top+ph-bh;ctx.fillStyle='#2877df';if(v>0){const rr=7;ctx.beginPath();ctx.roundRect(x,y,bw,Math.max(2,bh),[rr,rr,0,0]);ctx.fill()}ctx.fillStyle='#8994a5';ctx.textAlign='center';ctx.textBaseline='top';ctx.font='12px sans-serif';ctx.fillText(months[i],left+i*slot+slot/2,top+ph+12)});
+}
+function renderRecent(){
+ const rs=dashRecords().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);
+ const names={fuel:'น้ำมัน',maint:'ซ่อมบำรุง',insurance:'ประกันภัย',act:'พ.ร.บ.',other:'ค่าใช้จ่ายอื่น',tax:'ภาษีรถ',inspection:'ตรวจสภาพ'};
+ $('recentRecords').innerHTML=rs.length?rs.map(r=>`<div class="recent-item"><div><div class="recent-title">${names[r._type]||'รายการ'}${r.type?' · '+esc(r.type):''}</div><div class="recent-meta">${esc(vehicleName(r.vehicleId))} · ${esc(r.date||'-')}</div></div><div class="recent-amount">${dashMoney(r._cost)}</div></div>`).join(''):'<div class="empty">ยังไม่มีรายการบันทึก</div>';
+}
+function renderMaintDashboard(){
+ const standards=Object.entries(MAINT_STANDARDS);
+ const carIds=dashFilter==='all'?db.vehicles.map(v=>v.id):db.vehicles.filter(v=>v.id===dashFilter).map(v=>v.id);
+ const odoByCar={};
+ carIds.forEach(id=>{odoByCar[id]=Math.max(0,...(db.records.fuel||[]).filter(r=>r.vehicleId===id).map(r=>+r.odo||0),...(db.records.maint||[]).filter(r=>r.vehicleId===id).map(r=>+r.odo||0))});
+ const latest={};
+ (db.records.maint||[]).filter(r=>carIds.includes(r.vehicleId)).forEach(r=>{
+  const key=r.vehicleId+'|'+r.type;
+  if(!latest[key]||(r.date||'')>(latest[key].date||''))latest[key]=r;
+ });
+ const items=Object.values(latest).map(r=>{
+  const base=MAINT_STANDARDS[r.type]||10000;
+  const interval=+r.intervalKm||base;
+  const next=+r.nextOdo||(+r.odo+interval);
+  const current=odoByCar[r.vehicleId]||0;
+  const remain=next-current;
+  const alert=Math.max(0,+(r.alertBeforeKm??1000));
+  const status=remain<=0?'due':remain<=alert?'soon':'ok';
+  return {r,next,current,remain,interval,status};
+ }).sort((a,b)=>(({due:0,soon:1,ok:2}[a.status])-({due:0,soon:1,ok:2}[b.status]))||(a.remain-b.remain));
+ const due=items.filter(x=>x.status==='due').length,soon=items.filter(x=>x.status==='soon').length,ok=items.filter(x=>x.status==='ok').length;
+ $('maintDashKpis').innerHTML=`<div class="maint-kpi due"><strong>${due}</strong><span>ถึงกำหนดแล้ว</span></div><div class="maint-kpi soon"><strong>${soon}</strong><span>ใกล้ครบกำหนด</span></div><div class="maint-kpi ok"><strong>${ok}</strong><span>ยังปกติ</span></div>`;
+ const untracked=Math.max(0,carIds.length*standards.length-items.length);
+ $('maintDashSummary').textContent=`มีข้อมูลติดตาม ${items.length} รายการ · ยังไม่บันทึก ${untracked} รายการมาตรฐาน`;
+ const rows=items.slice(0,6).map(x=>{
+  const name=vehicleName(x.r.vehicleId),statusText=x.status==='due'?'ถึงกำหนดแล้ว':x.status==='soon'?'ใกล้ครบกำหนด':'ปกติ';
+  const remainText=x.remain<0?`เกินกำหนด ${Math.abs(x.remain).toLocaleString()} กม.`:x.remain===0?'ครบกำหนดที่เลขไมล์นี้':`เหลือ ${x.remain.toLocaleString()} กม.`;
+  return `<div class="maint-dash-row"><div class="maint-dash-main"><div class="maint-dash-title">${esc(x.r.type)} · ${esc(name)}</div><div class="maint-dash-meta">ไมล์ปัจจุบัน ${x.current.toLocaleString()} กม. · รอบถัดไป ${x.next.toLocaleString()} กม.</div></div><div class="maint-dash-right"><b>${remainText}</b><small>รอบ ${x.interval.toLocaleString()} กม.</small><br><span class="maint-status ${x.status}">${statusText}</span></div></div>`;
+ }).join('');
+ $('maintDashList').innerHTML=rows+(untracked?`<div class="maint-dash-meta" style="padding-top:10px">ยังไม่มีประวัติการบันทึก ${untracked} รายการมาตรฐาน · <a href="#" onclick="switchPage('maint');return false">เพิ่มข้อมูลบำรุงรักษา</a></div>`:'')||'<div class="empty">ยังไม่มีประวัติการบำรุงรักษา กรุณาเพิ่มรายการเพื่อเริ่มติดตามเลขไมล์</div>';
+}
+function renderDashboard(){
+ renderDashVehicle();
+ const totals=dashFilter==='all'?allTotals():allTotals(dashFilter),sum=Object.values(totals).reduce((a,b)=>a+b,0);
+ const fuelRows=dashRecords().filter(r=>r._type==='fuel').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ const maint=totals.maint, fuel=totals.fuel;
+ let efficiency='—';const fr=fuelRows.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(+a.odo-(+b.odo)));if(fr.length>=2){let km=0,lit=0;for(let i=1;i<fr.length;i++){const d=(+fr[i].odo)-(+fr[i-1].odo);if(d>0){km+=d;lit+=+fr[i].liters||0}}if(km>0&&lit>0)efficiency=(km/lit).toFixed(1)}
+ $('summaryCards').innerHTML=`<div class="dash-stat"><div class="label">ค่าใช้จ่ายรวม</div><strong>${dashMoney(sum)}</strong><small>ตามรถที่เลือก</small></div><div class="dash-stat"><div class="label">ค่าน้ำมัน</div><strong>${dashMoney(fuel)}</strong><small>ค่าเติมน้ำมันทั้งหมด</small></div><div class="dash-stat"><div class="label">ซ่อมบำรุง</div><strong>${dashMoney(maint)}</strong><small>ค่าใช้จ่ายในการดูแลรถ</small></div><div class="dash-stat"><div class="label">อัตราสิ้นเปลืองเฉลี่ย</div><strong>${efficiency}</strong><small>กม./ลิตร</small></div>`;
+ renderMaintDashboard();
+ const years=[...new Set(dashRecords().map(r=>(r.date||'').slice(0,4)).filter(x=>/^\d{4}$/.test(x)))].sort().reverse();const currentYear=String(new Date().getFullYear());const ys=[...new Set([currentYear,...years])].sort().reverse();$('dashYear').innerHTML=ys.map(y=>`<option value="${y}">${y}</option>`).join('');drawMonthlyChart();
+ renderRecent();drawExpenseDonut();drawFuelChart();
+ const alerts=getDueItems().filter(a=>dashFilter==='all'||a.vehicleId===dashFilter);
+ $('dueAlerts').innerHTML=alerts.length?alerts.slice(0,6).map(a=>`<div class="recent-item"><div><div class="recent-title">⚠️ ${esc(vehicleName(a.vehicleId))}</div><div class="recent-meta">${esc(a.title)}${a.date?' · '+esc(a.date):''}</div></div><b class="recent-amount">${esc(a.status)}</b></div>`).join(''):'ไม่มีรายการใกล้ครบกำหนด';
+ if($('reminderList'))refreshReminders();
+}
+$('dashYear')?.addEventListener('change',drawMonthlyChart);
+function vehicleName(id){const v=db.vehicles.find(v=>v.id===id);return v?`${v.plate} ${v.province}`:'รถที่ถูกลบ'}
+function drawFuelChart(){
+ const c=$('fuelChart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ const rs=records('fuel').slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(+a.odo-(+b.odo)));
+ const pts=[];for(let i=1;i<rs.length;i++){const km=(+rs[i].odo)-(+rs[i-1].odo),lit=+rs[i].liters;if(km>0&&lit>0)pts.push({label:rs[i].date,kml:km/lit})}
+ if(!pts.length){ctx.fillStyle='#64748b';ctx.font='20px sans-serif';ctx.textAlign='center';ctx.fillText('ต้องมีรายการเติมน้ำมันอย่างน้อย 2 ครั้งและเลขไมล์เพิ่มขึ้น',w/2,h/2);$('fuelStats').textContent='ยังคำนวณอัตราสิ้นเปลืองไม่ได้';return}
+ const max=Math.max(1,...pts.map(p=>p.kml)),min=Math.min(...pts.map(p=>p.kml)),lo=Math.max(0,min-(max-min||1)*.2),hi=max+(max-min||1)*.2;
+ const left=65,right=35,top=25,bottom=45,plotW=w-left-right,plotH=h-top-bottom;
+ ctx.strokeStyle='#dbe4ef';ctx.lineWidth=1;for(let j=0;j<=4;j++){const y=top+j*plotH/4;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();ctx.fillStyle='#64748b';ctx.font='13px sans-serif';ctx.textAlign='right';ctx.fillText((hi-(hi-lo)*j/4).toFixed(1),left-10,y+4)}
+ pts.forEach((p,i)=>{const x=left+(pts.length===1?plotW/2:i*plotW/(pts.length-1)),y=top+(hi-p.kml)/(hi-lo)*plotH;if(i){const prev=pts[i-1],px=left+(pts.length===1?plotW/2:(i-1)*plotW/(pts.length-1)),py=top+(hi-prev.kml)/(hi-lo)*plotH;ctx.strokeStyle='#1763c6';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke()}ctx.fillStyle='#1763c6';ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill()});
+ ctx.fillStyle='#64748b';ctx.font='12px sans-serif';ctx.textAlign='center';pts.forEach((p,i)=>{if(i===0||i===pts.length-1||i%Math.ceil(pts.length/5)===0){const x=left+(pts.length===1?plotW/2:i*plotW/(pts.length-1));ctx.fillText(p.label.slice(5),x,h-15)}});
+ const avg=pts.reduce((a,p)=>a+p.kml,0)/pts.length;$('fuelStats').textContent=`เฉลี่ย ${avg.toFixed(2)} กม./ลิตร • ต่ำสุด ${min.toFixed(2)} • สูงสุด ${max.toFixed(2)} • ${pts.length} ช่วงข้อมูล`;
+}
+
+
+const REMINDER_KEY='cmp_reminder_settings';
+function reminderSettings(){try{return {...{days:30,km:1000},...JSON.parse(localStorage.getItem(REMINDER_KEY)||'{}')}}catch(e){return {days:30,km:1000}}}
+function saveReminderSettings(){const days=Math.max(0,Math.min(365,+$('remindDays').value||0)),km=Math.max(0,Math.min(50000,+$('remindKm').value||0));localStorage.setItem(REMINDER_KEY,JSON.stringify({days,km}));$('remindDays').value=days;$('remindKm').value=km;refreshReminders();alert('บันทึกการตั้งค่าแจ้งเตือนแล้ว')}
+async function enableNotifications(){if(!('Notification'in window)){alert('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน');return}try{const p=await Notification.requestPermission();updateNotifyPermission();if(p==='granted'){refreshReminders();new Notification('Car Manager Pro',{body:'เปิดใช้งานการแจ้งเตือนแล้ว'})}else alert('ยังไม่ได้รับอนุญาตให้ส่งการแจ้งเตือน')}catch(e){alert('ไม่สามารถขอสิทธิ์แจ้งเตือนได้')}}
+function updateNotifyPermission(){$('notifyPermission').textContent=!('Notification'in window)?'เบราว์เซอร์ไม่รองรับ':Notification.permission==='granted'?'อนุญาตแล้ว':Notification.permission==='denied'?'ถูกปฏิเสธ':'ยังไม่ได้อนุญาต'}
+function testNotification(){if(!('Notification'in window)||Notification.permission!=='granted'){alert('กรุณากด “เปิดการแจ้งเตือน” ก่อน');return}new Notification('Car Manager Pro',{body:'ทดสอบการแจ้งเตือนสำเร็จ'})}
+function getDueItems(){const cfg=reminderSettings(),items=[],now=new Date();now.setHours(0,0,0,0);const odoByCar={};db.vehicles.forEach(v=>{odoByCar[v.id]=Math.max(0,...(db.records.fuel||[]).filter(r=>r.vehicleId===v.id).map(r=>+r.odo||0),...(db.records.maint||[]).filter(r=>r.vehicleId===v.id).map(r=>+r.odo||0))});
+ for(const type of ['insurance','act','tax','inspection'])for(const r of (db.records[type]||[])){if(!r.end)continue;const d=Math.ceil((new Date(r.end+'T00:00:00')-now)/86400000);if(d<=cfg.days)items.push({key:type+'-'+r.id,vehicleId:r.vehicleId,title:({act:'พ.ร.บ.',insurance:'ประกันภัย',tax:'ภาษีรถ',inspection:'ตรวจสภาพรถ'})[type],detail:r.company||r.policy||'',date:r.end,days:d,status:d<0?'เลยกำหนด':d===0?'ครบกำหนดวันนี้':`เหลือ ${d} วัน`})}
+ const latest={};for(const r of (db.records.maint||[])){const k=r.vehicleId+'|'+r.type;if(!latest[k]||(r.date||'')>(latest[k].date||''))latest[k]=r}for(const r of Object.values(latest)){const odo=odoByCar[r.vehicleId]||0,hasKm=+r.nextOdo>0,hasDate=!!r.nextDate;if(!hasKm&&!hasDate)continue;const remain=hasKm?(+r.nextOdo-odo):null,days=hasDate?Math.ceil((new Date(r.nextDate+'T00:00:00')-now)/86400000):null;if((hasKm&&remain<=cfg.km)||(hasDate&&days<=cfg.days)){const parts=[];if(hasKm)parts.push(remain<=0?'เลยเลขไมล์กำหนด':`เหลือ ${remain.toLocaleString()} กม.`);if(hasDate)parts.push(days<0?'เลยวันที่กำหนด':days===0?'ครบกำหนดวันนี้':`เหลือ ${days} วัน`);items.push({key:'maint-'+r.id,vehicleId:r.vehicleId,title:'ซ่อมบำรุง: '+r.type,detail:r.shop||'',date:r.nextDate||'',days,remain,status:parts.join(' • ')})}}
+ return items.sort((a,b)=>(a.days??999999)-(b.days??999999)||(a.remain??999999)-(b.remain??999999))}
+function refreshReminders(){if(!$('reminderList'))return;const cfg=reminderSettings();$('remindDays').value=cfg.days;$('remindKm').value=cfg.km;updateNotifyPermission();const items=getDueItems();$('reminderList').innerHTML=items.length?items.map(x=>`<div class="stat" style="margin:8px 0"><div class="section-head" style="margin:0"><b>${esc(vehicleName(x.vehicleId))} • ${esc(x.title)}</b><span class="pill">${esc(x.status)}</span></div><div class="muted">${esc(x.detail||'')}${x.date?' • กำหนด '+esc(x.date):''}</div></div>`).join(''):'<div class="empty">ยังไม่มีรายการใกล้ครบกำหนด 🎉</div>';if('Notification'in window&&Notification.permission==='granted'){const day=today();items.forEach(x=>{const key='cmp_notice_'+x.key+'_'+day;if(!localStorage.getItem(key)){new Notification('Car Manager Pro: '+x.title,{body:vehicleName(x.vehicleId)+' • '+x.status});localStorage.setItem(key,'1')}})}}
+
+
+$('tDate').value=today();$('sDate').value=today();
+$('taxForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('tax',{date:$('tDate').value,end:$('tEnd').value,cost:+$('tCost').value,reference:$('tRef').value,note:$('tNote').value},$('taxEditId').value);e.target.reset();resetEdit('tax');$('tDate').value=today();renderTax();renderDashboard()});
+function renderTax(){const rs=records('tax');$('taxRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.date)}<br><span class="muted">หมดอายุ ${esc(r.end)} • ${dateStatus(r.end)}</span></td><td>${esc(r.reference||'-')}</td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('tax','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('tax','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(4)}
+$('inspectionForm').addEventListener('submit',e=>{e.preventDefault();if(!requireCar())return;addRecord('inspection',{date:$('sDate').value,end:$('sEnd').value,result:$('sResult').value,cost:+$('sCost').value||0,center:$('sCenter').value,reference:$('sRef').value,note:$('sNote').value},$('inspectionEditId').value);e.target.reset();resetEdit('inspection');$('sDate').value=today();renderInspection();renderDashboard()});
+function renderInspection(){const rs=records('inspection');$('inspectionRows').innerHTML=rs.length?rs.map(r=>`<tr><td>${esc(r.date)}<br><span class="muted">ครบกำหนด ${esc(r.end)} • ${dateStatus(r.end)}</span></td><td>${esc(r.result||'-')}<br><span class="muted">${esc(r.center||'')}</span></td><td class="num">${money(r.cost)}</td><td><button class="btn btn-gray btn-small" onclick="beginEdit('inspection','${r.id}')">แก้ไข</button> <button class="btn btn-red btn-small" onclick="delRecord('inspection','${r.id}')">ลบ</button></td></tr>`).join(''):rowEmpty(4)}
+
+function shortMoney(n){return (n||0).toLocaleString('th-TH',{maximumFractionDigits:0})}
+function backupAll(){const payload={app:'Car Manager Pro',exportedAt:new Date().toISOString(),data:db};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});downloadBlob(blob,`car-manager-backup-${today()}.json`)}
+$('restoreFile').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const obj=JSON.parse(await file.text()),data=obj.data||obj;if(!Array.isArray(data.vehicles)||!data.records||!confirm('การกู้คืนจะแทนที่ข้อมูลปัจจุบันทั้งหมด ต้องการดำเนินการต่อหรือไม่?'))return;for(const k of ['fuel','maint','insurance','act','other','tax','inspection'])if(!Array.isArray(data.records[k]))data.records[k]=[];db={version:1,vehicles:data.vehicles,records:data.records};activeId=db.vehicles[0]?.id||'';save();renderVehicleSelect();renderDashboard();alert('กู้คืนข้อมูลสำเร็จ')}catch(err){alert('ไฟล์ไม่ถูกต้องหรืออ่านไม่ได้')}e.target.value=''});
+function exportCSV(type){const rs=records(type);if(!rs.length)return alert('ไม่มีข้อมูลสำหรับส่งออก');const keys=Object.keys(rs[0]);const csv='\uFEFF'+[keys.join(','),...rs.map(r=>keys.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(','))].join('\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),`${type}-${currentCar()?.plate||'car'}-${today()}.csv`)}
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+renderVehicleSelect();renderDashboard();renderVehicles();renderFuel();renderMaint();renderInsurance();renderAct();renderOther();renderTax();renderInspection();refreshReminders();
+$('vehicleSelect').value=activeId;
+let deferredPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').hidden=false});$('installBtn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('installBtn').hidden=true});
+if('serviceWorker'in navigator && location.protocol!=='file:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
+</script>
+
+ <section id="more" class="page hidden">
+  <div class="dash-intro"><h1>เพิ่มเติม</h1><p>จัดการข้อมูลรถ เอกสาร และการตั้งค่าต่าง ๆ</p></div>
+  <div class="panel"><div class="section-head"><h2>🚘 ข้อมูลรถและบำรุงรักษา</h2></div><div class="quick-grid">
+   <button class="quick-action" onclick="switchPage('vehicles');openVehicleForm()"><span>🚗</span><b>เพิ่มรถ</b></button>
+   <button class="quick-action" onclick="switchPage('maint')"><span>🔧</span><b>ซ่อมบำรุง</b></button>
+   <button class="quick-action" onclick="switchPage('fuel')"><span>⛽</span><b>บันทึกน้ำมัน</b></button>
+   <button class="quick-action" onclick="switchPage('other')"><span>🧾</span><b>ค่าใช้จ่าย</b></button>
+  </div></div>
+  <div class="panel"><div class="section-head"><h2>📄 เอกสารและกำหนดสำคัญ</h2></div><div class="quick-grid">
+   <button class="quick-action" onclick="switchPage('insurance')"><span>🛡️</span><b>ประกันภัย</b></button>
+   <button class="quick-action" onclick="switchPage('act')"><span>📋</span><b>พ.ร.บ.</b></button>
+   <button class="quick-action" onclick="switchPage('taxinspect')"><span>🚦</span><b>ต่อภาษี/ตรวจสภาพ</b></button>
+   <button class="quick-action" onclick="switchPage('reminders')"><span>🔔</span><b>แจ้งเตือน</b></button>
+  </div></div>
+  <div class="panel"><div class="section-head"><h2>💾 สำรองและกู้คืนข้อมูล</h2></div><div class="form-actions"><button class="btn btn-blue" onclick="backupAll()">สำรองข้อมูล</button><button class="btn btn-gray" onclick="document.getElementById('restoreFile').click()">กู้คืนข้อมูล</button></div></div>
+ </section>
+
+ <section id="records" class="page hidden">
+  <div class="dash-intro"><h1>บันทึกข้อมูล</h1><p>เลือกหมวดหมู่ที่ต้องการบันทึกหรือดูประวัติ</p></div>
+  <div class="panel"><div class="quick-grid">
+   <button class="quick-action" onclick="switchPage('fuel')"><span>⛽</span><b>น้ำมัน</b></button>
+   <button class="quick-action" onclick="switchPage('maint')"><span>🔧</span><b>ซ่อมบำรุง</b></button>
+   <button class="quick-action" onclick="switchPage('other')"><span>🧾</span><b>ค่าใช้จ่าย</b></button>
+   <button class="quick-action" onclick="switchPage('insurance')"><span>🛡️</span><b>ประกันภัย</b></button>
+   <button class="quick-action" onclick="switchPage('act')"><span>📋</span><b>พ.ร.บ.</b></button>
+   <button class="quick-action" onclick="switchPage('taxinspect')"><span>🚦</span><b>ภาษี/ตรวจสภาพ</b></button>
+  </div></div>
+ </section>
+
+</body></html>

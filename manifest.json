@@ -1,0 +1,10 @@
+{
+  "name": "MY CAR MANAGER",
+  "short_name": "MY CAR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#123b72",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
